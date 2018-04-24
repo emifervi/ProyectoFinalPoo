@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1524533432 source:c:\users\emife\documents\poo\proyecto_3\main.cpp
+	<iostream>
+	"Reserva.h"
+	"Servicio.h"
+	"Fisico.h"
+	"Digital.h"
+
+1524522665 c:\users\emife\documents\poo\proyecto_3\hora.h
+
+1524523376 c:\users\emife\documents\poo\proyecto_3\reserva.h
+	"Hora.h"
+
+1524533389 c:\users\emife\documents\poo\proyecto_3\servicio.h
+
+1524533013 c:\users\emife\documents\poo\proyecto_3\fisico.h
+	"Servicio.h"
+
+1524533008 c:\users\emife\documents\poo\proyecto_3\digital.h
+	"Servicio.h"
+
