@@ -25,6 +25,7 @@ public:
 
     // Metodo funcional
     Hora calculaHoraFinal();
+    void muestra(); //Para pruebas y debuggear
 };
 /*
  * Constructor default
@@ -102,6 +103,14 @@ Hora Reserva::getHoraInicio(){
  */
 Hora Reserva::calculaHoraFinal(){
     return horaInicio + duracion;
+}
+
+void Reserva::muestra(){
+    cout<<"Reserva:"<<endl;
+    cout<<"Servicio: "<<cveServicio<<endl;
+    cout<<"ID de usuario: "<<idUsuario<<endl;
+    cout<<"Hora de Inicio: "<<horaInicio<<endl;
+    cout<<"Duracion: "<<duracion<<endl;
 }
 
 #endif // RESERVA_H_INCLUDED
