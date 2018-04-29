@@ -105,8 +105,11 @@ Hora Reserva::calculaHoraFinal(){
     return horaInicio + duracion;
 }
 
+/*
+ * Metodo muestra.
+ */
 void Reserva::muestra(){
-    cout<<"Reserva:"<<endl;
+
     cout<<"Servicio: "<<cveServicio<<endl;
     cout<<"ID de usuario: "<<idUsuario<<endl;
     cout<<"Hora de Inicio: "<<horaInicio<<endl;

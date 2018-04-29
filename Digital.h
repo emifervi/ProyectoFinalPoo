@@ -80,7 +80,7 @@ double Digital::calculaCosto(int tiempo){
 }
 
 /*
- * metodo muestra
+ * Metodo muestra
  */
 void Digital::muestra(){
     cout << "Servicio: " << cveServicio << endl;
