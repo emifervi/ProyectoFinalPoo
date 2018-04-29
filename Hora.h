@@ -139,19 +139,19 @@ ostream& operator<<(ostream &os, Hora a){
     else{
         os << a.minuto;
     }
-    return os;
 }
 /*
  * Sobrecarga de operador >>
  */
 istream& operator>>(istream &is, Hora &a){
     is >> a.hora;
+    cin.ignore();
     is >> a.minuto;
+
     if (a.minuto > 59){
         a.hora += a.minuto / 60;
         a.minuto = a.minuto % 60;
     }
-    return is;
 }
 
 #endif // HORA_H_INCLUDED
