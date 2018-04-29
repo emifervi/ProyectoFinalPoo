@@ -142,14 +142,28 @@ void consultaPorHora(Reserva *arrRes[], int tam, Hora hInicio){
     }
 
 }
+
+bool validaEmpalmeHorario(Reserva *arrRes[], int tam, Hora hr,int dur ){
+    //Para que se empalmen, la hora inicial o final deben estar entre la hora de inicio y final de las ya registradas,
+    // o que empiece antes y termine despues.
+    for(int i=0;i<tam;i++){
+        if(arrRes[i]->calculaHoraFinal() >= hr&& hr+dur>= arrRes[i]->getHoraInicio() ){
+            return true;
+        }
+    }
+    return  false;
+}
+
+
+
 int main()
 {
     //Declaracion de todas las varibles utilizadas
     string clave, descripcion, sTraduccion, sCosto;
-    bool bTraduccion, bExiste, bHoraValida;
+    bool bTraduccion, bExiste, bHoraValida, bEmpalme;
     int costo, indexSer=0, indexRes=0, ultEspacio, id, duracion, hora, minuto;
-    char tipo, op;
-    Hora temp;
+    char tipo, op,  op2;
+    Hora temp,hSalida;
     Servicio *arrSer[6];
     Reserva *arrRes[20];
     //Lectura de archivos
@@ -288,40 +302,69 @@ int main()
         case 'D':
             cout<<"Teclea la hora que busca, separando la hora y minuto por dos puntos ':'."<<endl;
             cin>>temp;
-            consultaPorHora(arrRes,indexRes,temp);
+            bHoraValida= validarHora(temp);
+            //Solo se hace  un if porque regresa al menu directamente, no hay necesidad  de implementar
+            // un while o do-while que obligue al usuario a esta opcion.
+            if(bHoraValida){
+                consultaPorHora(arrRes,indexRes,temp;
+            }
+            else{
+                cout<<"Hora dada es invalida, intente nuevamente."<<endl;
+            }
             break;
 
         //Opcion que registra una reservación nueva, si existe espacio para registrarla
         case 'E':
             if(indexRes<20){
-                cout<<"Teclea la clave del servicio al cual desea hacer reservacion."<<endl;
-                cin>>clave;
-                cout<<endl;
-                bExiste = existeServicio(arrSer, indexSer, clave);
-                if(bExiste){
+                do{
+                    cout<<"Teclea la clave del servicio al cual desea hacer reservacion. (Para regresar al menu principal teclee '-1'")<<endl;
+                    cin>>clave;
+                    cout<<endl;
+                    bExiste = existeServicio(arrSer, indexSer, clave);
+                    if(!bExiste){
+                        cout<<"La clave del servicio es incorrecta, intentelo de nuevo."<<endl;
+                    }
+                }while(!bExiste || clave!= "-1");
+
+                //Al igual que la opcion D, no hay necesidad de implementar un loop ya que el usuario regresa
+                // al menu directamente, no ha ingresado mas datos.
+                if(clave!="-1"){
                     cout<<"Teclea el ID del usuario."<<endl;
                     cin>>id;
+                    //Al ya haber ingresado otros datos ya validados, se espera que el usuario de una hora valida,
+                    // por esto aqui si se implementa un do-while hasta que el usuario de una hora valida.
                     do{
-                        cout<<endl<<"Teclea el horaio de inicio, separando hora y minuto con dos puntos ':'"<<endl;
-                        cin>>temp;
-                        bHoraValida= validarHora(temp);
-                        if(!bHoraValida){
-                            cout<<"Hora dada excede las 24 horas del dia, intentelo de nuevo."<<endl;
+
+
+                        do{
+                            cout<<endl<<"Teclea el horaio de inicio, separando hora y minuto con dos puntos ':'"<<endl;
+                            cin>>temp;
+                            bHoraValida= validarHora(temp);
+                            if(!bHoraValida){
+                                cout<<"Hora dada excede las 24 horas del dia, intentelo de nuevo."<<endl;
+                            }
+                        }while(!bHoraValida);
+
+                        cout<<endl<<"Teclea la duracion de la reserva"<<endl;
+                        cin>>duracion;
+
+                        bEmpalme= validaEmpalmeHorario(arrRes,indexRes,temp,duracion);
+
+                        if(bEmpalme){
+                            cout<<"Horario y duracion se empalman, desea introducir otra hora o duracion? (s/n)"<<endl;
+                            cin>>op2;
                         }
+                    }while(bEmpalme);
 
-                    }while(!bHoraValida);
 
-                    cout<<endl<<"Teclea la duracion de la reserva"<<endl;
-                    cin>>duracion;
+                    //Se registra la reservacion en el arreglo
                     Reserva *tmp = new Reserva(clave,id,duracion,temp);
                     arrRes[indexRes]= tmp;
                     indexRes++;
                     cout<<"Reserva registrada correctamente."<<endl;
                 }
-                else{
-                    cout<<"La clave del servicio es incorrecta, intentelo de nuevo."<<endl;
-                }
             }
+            //Si no queda espacio en el arreglo, se notifica al usuario y no se registran nuevas reservas
             else{
                 cout<<"Ya no se pueden registrar mas reservaciones por falta de espacio."<<endl;
             }
@@ -333,86 +376,12 @@ int main()
 
         //Cualquier otra opcion es invalida.
         default:
-            cout<<"Opción inválida, intente nuevamente."<< endl;
+            cout<<"Opción inválida, intente n quevamente."<< endl;
         }
 
     }while(toupper(op)!='F');
 
 
-/*
-    //Hora a(2, 120);
-    //Hora b(2, 30);
-
-    Hora c;
-    cin >> c;
-
-
-    //cout << "A: " << a << endl;
-    //cout << "B: " << b << endl;
-
-    cout << "C: " << c << endl;
-    /*
-    if(a == b){
-        cout << "A es igual a B "<< endl;
-    }
-    if(a <= b){
-        cout << "A es menor igual" << endl;
-    }
-    if(a >= b){
-        cout << "A es mayor ingual" << endl;
-    }
-    b = a + 120;
-    cout << "A: " << a << endl;
-    cout << "B: " << b << endl;
-    cout << "C: " << c << endl;
-
-    int i=0, tar;
-    string cve, descr;
-    char tip, op;
-    bool trad = false;
-
-	Servicio *lista[4];
-	for(;i<2;i++){
-		cout<<"cveServicio Fisico "<<i+1<<endl;
-		cin>> cve;
-		cout<<"descripcion Fisico "<<i+1<<endl;
-		cin>>descr;
-		cout<<"tipo"<<i+1<<endl;
-		cin>>tip;
-		cout<<"tarifa"<<i+1<<endl;
-		cin>>tar;
-    	Fisico *fisTemp = new Fisico(cve, descr, tip, tar);
-		lista[i]= fisTemp;
-	}
-	for(;i<4;i++){
-        trad = false;
-		cout<<"cveServicio Digital "<<i+1<<endl;
-		cin>> cve;
-		cout<<"descripcion Digital "<<i+1<<endl;
-		cin>>descr;
-		cout<<"tipo "<<i+1<<endl;
-		cin>>tip;
-		cout<<"tarifa "<<i+1<<endl;
-		cin>>tar;
-		cout <<"traducido ?" << endl;
-		cin>>op;
-		if(tolower(op) == 'y' ){
-            trad = true;
-		}
-		Digital *digTemp = new Digital(cve, descr, tip, tar, trad);
-		lista[i]= digTemp;
-	}
-
-	for(int i=0; i<4;i++){
-		lista[i]->muestra();
-		if(i < 2){
-            cout << "Costo total: " << lista[i]->calculaCosto(c.getHora()*60 + c.getMinuto()) << endl;
-		}
-		else{
-            cout << "Costo total: " << lista[i]->calculaCosto(c.getHora() + c.getMinuto()/60) << endl;
-		}
-		cout << endl;
-	}*/
 
     return 0;
 }
