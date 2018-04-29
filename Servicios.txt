@@ -1,3 +1,5 @@
-456def e Es un PDF 20 true
-123abc L Un libro 10
-asdn32 C Poemas varios 12 false
+F-012 L Libro Politica 89
+D-013 E Ebook Agricultura 190 true
+F-013 R Modas 30
+F-014 P El Norte 5
+D-014 C Enciclopedia Universal false
