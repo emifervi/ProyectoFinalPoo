@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
 #include "Reserva.h"
 #include "Servicio.h"
@@ -7,7 +9,26 @@ using namespace std;
 
 int main()
 {
+    string clave, descripcion;
+    bool traduccion;
+    int costo, indexArch;
+    char tipo;
+    Servicio arrSer[6];
+    Reserva arrRes[20];
 
+    ifstream EntSer, EntRes;
+
+    EntSer.open("Servicios.txt")
+    while(cin>>clave){
+        cin>>tipo;
+        if(toupper(tipo)=='L'||toupper(tipo)=='R'||toupper(tipo)=='P'){
+            getline(ifstream,descripcion);
+
+        }
+    }
+
+
+/*
     //Hora a(2, 120);
     //Hora b(2, 30);
 
@@ -31,7 +52,7 @@ int main()
     }
     b = a + 120;
     cout << "A: " << a << endl;
-    cout << "B: " << b << endl;*/
+    cout << "B: " << b << endl;
     cout << "C: " << c << endl;
 
     int i=0, tar;
@@ -80,7 +101,7 @@ int main()
             cout << "Costo total: " << lista[i]->calculaCosto(c.getHora() + c.getMinuto()/60) << endl;
 		}
 		cout << endl;
-	}
+	}*/
 
     return 0;
 }
