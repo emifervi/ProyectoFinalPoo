@@ -86,7 +86,7 @@ int Hora::getMinuto(){
  * Sobrecarga de operador <=
  */
 bool Hora::operator<=(Hora a){
-    if (minuto + hora*3600 <= a.hora*3600 + a.minuto){
+    if (minuto + hora*60 <= a.hora*60 + a.minuto){
         return true;
     }
     else{
@@ -97,7 +97,7 @@ bool Hora::operator<=(Hora a){
  * Sobrecarga de operador >=
  */
 bool Hora::operator>=(Hora a){
-    if (minuto + hora*3600 >= a.hora*3600 + a.minuto){
+    if (minuto + hora*60 >= a.hora*60 + a.minuto){
         return true;
     }
     else{
@@ -108,7 +108,7 @@ bool Hora::operator>=(Hora a){
  * Sobrecarga de operador ==
  */
 bool Hora::operator==(Hora a){
-    if (minuto + hora*3600 == a.hora*3600 + a.minuto){
+    if (minuto + hora*60 == a.hora*60 + a.minuto){
         return true;
     }
     else{
