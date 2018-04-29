@@ -1,25 +1,5 @@
 # depslib dependency file v1.0
-1524533432 source:c:\users\emife\documents\poo\proyecto_3\main.cpp
-	<iostream>
-	"Reserva.h"
-	"Servicio.h"
-	"Fisico.h"
-	"Digital.h"
-
-1524522665 c:\users\emife\documents\poo\proyecto_3\hora.h
-
-1524523376 c:\users\emife\documents\poo\proyecto_3\reserva.h
-	"Hora.h"
-
-1524533389 c:\users\emife\documents\poo\proyecto_3\servicio.h
-
-1524533013 c:\users\emife\documents\poo\proyecto_3\fisico.h
-	"Servicio.h"
-
-1524533008 c:\users\emife\documents\poo\proyecto_3\digital.h
-	"Servicio.h"
-
-1524986485 source:c:\users\memos\onedrive\documents\github\proyectofinalpoo\main.cpp
+1525033973 source:c:\users\memos\onedrive\documents\github\proyectofinalpoo\main.cpp
 	<iostream>
 	<fstream>
 	<string>
@@ -29,16 +9,16 @@
 	"Fisico.h"
 	"Digital.h"
 
-1524986449 c:\users\memos\onedrive\documents\github\proyectofinalpoo\reserva.h
+1524989801 c:\users\memos\onedrive\documents\github\proyectofinalpoo\reserva.h
 	"Hora.h"
 
-1524973638 c:\users\memos\onedrive\documents\github\proyectofinalpoo\hora.h
+1525025026 c:\users\memos\onedrive\documents\github\proyectofinalpoo\hora.h
 
 1524973638 c:\users\memos\onedrive\documents\github\proyectofinalpoo\servicio.h
 
 1524984939 c:\users\memos\onedrive\documents\github\proyectofinalpoo\fisico.h
 	"Servicio.h"
 
-1524984944 c:\users\memos\onedrive\documents\github\proyectofinalpoo\digital.h
+1524989799 c:\users\memos\onedrive\documents\github\proyectofinalpoo\digital.h
 	"Servicio.h"
 

@@ -37,36 +37,116 @@ int stringToInt(string str, int tam){
 }
 
 /*
- * Funcion para mostrar todos los servicios registrados.
- * No tiene parametros y no regresa algun valor.
+ * Funcion para saber si una clave dada existe y pertenece a un servicio dentro del arreglo
+ * Toma como parametros el arreglo de servicios, su tamaño y la clave a encontrar
+ * Regresa verdadero si encuentra el servicio y falso si no lo encuentra.
 */
-void consultaServicios(){
+bool existeServicio(Servicio *arrSer[], int tam, string clave){
+    for(int i=0;i<tam;i++){
+        if(arrSer[i]->getCveServicio()==clave){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/*
+ * Funcion para saber si una horario dado es real, esta dentro de las 24 horas del dia.
+ * Toma como parametros la hora a  validar.
+ * Regresa verdadero si la hora es valida y falso si no lo es.
+*/
+bool validarHora(Hora hr){
+    Hora tmp(23,59), tmp2(0,0);
+    if(hr <= tmp && hr >= tmp2){
+        return true;
+    }
+    else{
+        return false;
+    }
+
+}
+/*
+ * Funcion para mostrar todos los servicios registrados.
+ * Recibe como parametros el arreglo de servicios y su tamaño
+ * no regresa algun valor.
+*/
+void consultaServicios(Servicio *arrSer[], int tam){
     //Por cada exitente llama al metodo muestra.
-    for(int i=0;i<indexSer;i++){
+    for(int i=0;i<tam;i++){
     cout<<"Servicio "<<i+1<<": "<<endl;
     arrSer[i]->muestra();
     cout<<endl;
+    }
+    //Si el arreglo no tiene datos, se informa al usuario
+    if(tam==0){
+        cout<<"No existen servicios registrados."<<endl;
     }
 }
 
 /*
  * Funcion para mostrar todos las reservas registrados.
- * No tiene parametros y no regresa algun valor.
+ * Recibe como parametros el arreglo de reservas y su tamaño
+ * No regresa algun valor.
 */
-void consultaReservaciones(){
+void consultaReservaciones(Reserva *arrRes[], int tam){
     //Por cada exitente llama al metodo muestra.
-    for(int i=0;i<indexRes;i++){
+    for(int i=0;i<tam;i++){
         cout<<"Reserva "<<i+1<<": "<<endl;
         arrRes[i]->muestra();
         cout<<endl;
     }
+    //Si el arreglo no tiene datos, se informa al usuario
+    if(tam==0){
+        cout<<"No existen reservas registradas."<<endl;
+    }
 }
 
+
+/*
+ * Funcion para mostrar las reservas a un servicio dado, identificado por su clave.
+ * Recibe como parametros el arreglo de reservas, su tamaño y la clave del servicio
+ * que se busca.
+ * No regresa algun valor.
+*/
+void consultaPorClave(Reserva *arrRes[], int tam, string clave){
+    bool bHay=false;
+    for(int i=0;i<tam;i++){
+        if(arrRes[i]->getCveServicio() == clave){
+            bHay=true;
+            arrRes[i]->muestra();
+            cout<<endl;
+        }
+    }
+    if(!bHay){
+        cout<<"No existen reservas para ese servicio."<<endl;
+    }
+}
+
+/*
+ * Funcion para mostrar las reservas que tienen un horario de inico dado.
+ * Recibe como parametros el arreglo de reservas, su tamaño y la hora buscada.
+ * No regresa algun valor.
+*/
+void consultaPorHora(Reserva *arrRes[], int tam, Hora hInicio){
+    bool bHay=false;
+    for(int i=0;i<tam;i++){
+        if(arrRes[i]->getHoraInicio()==hInicio){
+            bHay=true;
+            arrRes[i]->muestra();
+            cout<<endl;
+        }
+    }
+    if(!bHay){
+        cout<<"No existen reservas con esa hora de inicio."<<endl;
+    }
+
+}
 int main()
 {
     //Declaracion de todas las varibles utilizadas
     string clave, descripcion, sTraduccion, sCosto;
-    bool bTraduccion, bExiste;
+    bool bTraduccion, bExiste, bHoraValida;
     int costo, indexSer=0, indexRes=0, ultEspacio, id, duracion, hora, minuto;
     char tipo, op;
     Hora temp;
@@ -75,6 +155,7 @@ int main()
     //Lectura de archivos
     ifstream EntSer, EntRes;
 
+    //Lectura de Servicios
     EntSer.open("Servicios.txt");
     while(EntSer>>clave){
         EntSer>>tipo;
@@ -131,31 +212,43 @@ int main()
 
     }
     EntRes.close();
-    cout<<"Carga de servicios completada."<<endl<<endl;
+    cout<<"Carga de servicios completada."<<endl;
 
-    EntRes.open("Reserva.txt");
+    //Lectura de Reservas
+    EntRes.open("Reservas.txt");
     while(EntRes>>clave){
         EntRes>>id>>temp>>duracion;
         //Validar que la clave dada existe en el arreglo de servicios
-        bExiste = false;
-        for(int i=0;i<indexSer;i++){
-            if(arrSer[i].getCveServicio()==clave){
-                bExiste= true;
-            }
-        }
+        bExiste = existeServicio(arrSer,indexSer,clave);
+        bHoraValida = validarHora(temp);
         //Si existe, agregarla al arreglo de reservas, si no, notificar al usuario que
         // existe un error.
         if(bExiste){
-            Reserva *tmp = new Reserva(clave,id,duracion,temp);
-            arrRes[indexRes]= tmp;
-            indexRes++;
+            if(bHoraValida){
+                //Reserva registrada con datos validados.
+                Reserva *tmp = new Reserva(clave,id,duracion,temp);
+                arrRes[indexRes]= tmp;
+                indexRes++;
+            }
+            else{
+                cout<<"Hora no es valida, verifique hora de reserva "<<indexRes +1<<", definida como 00:00 por default."<<endl;
+                //Si la clave existe, la hora se pone como 00:00 ya que la hora dada no es valida
+                temp.setHora(0);
+                temp.setMinuto(0);
+
+                //Se registra reservacion con hora default
+                Reserva *tmp = new Reserva(clave,id,duracion,temp);
+                arrRes[indexRes]= tmp;
+                indexRes++;
+            }
         }
         else{
-            cout<<"Error: Clave de servicio "<<clave<<" no esta regsitrada, favor de introducir una clave existente o crear un nuevo servicio con esta clave."<<endl;
+            //Si la clave no existe, no se registra la reservacion, sin importar si la hora es valida o no.
+            cout<<"Error: Clave de servicio "<<clave<<" no esta regsitrada, favor de introducir una clave existente o crear un nuevo servicio con esta clave. (Reservacion no registrada)"<<endl;
         }
     }
     EntRes.close();
-    cout<<"Carga de reservas exitosa."
+    cout<<"Carga de reservas completada."<<endl;
 
     //Menu principal
     do{
@@ -169,41 +262,71 @@ int main()
         cout<<"f) Terminar."<<endl;
         cin>>op;
 
-        switch(toupper(op){
+        cout<<endl;
+
+        switch(toupper(op)){
 
         //Opcion que muestra todos los servicios registrados
         case 'A':
-            consultaServicios();
+            consultaServicios(arrSer,indexSer);
             break;
 
         //Opcion que muestra todos las reservas registrados
         case 'B':
-            consultaReservaciones();
+            consultaReservaciones(arrRes,indexRes);
             break;
 
         //Opcion que muestra las reservas con una clave de servicios dada
         case 'C':
             cout<<"Teclea la clave del servicio."<<endl;
             cin>>clave;
-            //consultarPorClave(clave);
+            cout<<endl;
+            consultaPorClave(arrRes,indexRes,clave);
             break;
 
         //Opcion que muestra las reservas con una hora dada
         case 'D':
             cout<<"Teclea la hora que busca, separando la hora y minuto por dos puntos ':'."<<endl;
             cin>>temp;
-            //consultarPorHora(temp);
+            consultaPorHora(arrRes,indexRes,temp);
             break;
 
         //Opcion que registra una reservación nueva, si existe espacio para registrarla
         case 'E':
             if(indexRes<20){
+                cout<<"Teclea la clave del servicio al cual desea hacer reservacion."<<endl;
+                cin>>clave;
+                cout<<endl;
+                bExiste = existeServicio(arrSer, indexSer, clave);
+                if(bExiste){
+                    cout<<"Teclea el ID del usuario."<<endl;
+                    cin>>id;
+                    do{
+                        cout<<endl<<"Teclea el horaio de inicio, separando hora y minuto con dos puntos ':'"<<endl;
+                        cin>>temp;
+                        bHoraValida= validarHora(temp);
+                        if(!bHoraValida){
+                            cout<<"Hora dada excede las 24 horas del dia, intentelo de nuevo."<<endl;
+                        }
 
+                    }while(!bHoraValida);
+
+                    cout<<endl<<"Teclea la duracion de la reserva"<<endl;
+                    cin>>duracion;
+                    Reserva *tmp = new Reserva(clave,id,duracion,temp);
+                    arrRes[indexRes]= tmp;
+                    indexRes++;
+                    cout<<"Reserva registrada correctamente."<<endl;
+                }
+                else{
+                    cout<<"La clave del servicio es incorrecta, intentelo de nuevo."<<endl;
+                }
             }
             else{
                 cout<<"Ya no se pueden registrar mas reservaciones por falta de espacio."<<endl;
             }
             break;
+
         //Opcion que termina el programa
         case 'F':
             break;
