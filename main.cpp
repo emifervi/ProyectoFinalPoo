@@ -205,7 +205,7 @@ int main()
     //Declaracion de todas las varibles utilizadas
     string clave, descripcion, sTraduccion, sCosto;
     bool bTraduccion, bExiste, bHoraValida, bEmpalme, bReservaValida;
-    int costo, indexSer=0, indexRes=0, ultEspacio, id, duracion, hora, minuto;
+    int costo, indexSer=0, indexRes=0, ultEspacio, id, duracion;
     char tipo, op,  op2;
     Hora temp,hSalida;
     Servicio *arrSer[6];
@@ -232,7 +232,7 @@ int main()
             //Si es fisico, la ultima palabra, on este caso numero, es el costo por 30 mins
             sCosto=descripcion.substr(ultEspacio+1);
             descripcion.erase(ultEspacio);
-            costo= stringToInt(sCosto);
+            costo= stoi(sCosto);
 
             //Crea un apuntador a un objeto tipo Fisico con memoria dinamica, para que luego el arreglo
             // apunte a ese objeto
@@ -262,7 +262,7 @@ int main()
             ultEspacio=buscarUltimoEspacio(descripcion,descripcion.length());
             sCosto = descripcion.substr(ultEspacio+1);
             //Calcular el valor de costo que dice el string.
-            costo = stringToInt(sCosto);
+            costo = stoi(sCosto);
             descripcion.erase(ultEspacio);
             //Crea un objeto tipo digital y lo asigna a la direccion correspondiente del arreglo.
             Digital *tmp = new Digital(clave, descripcion, tipo,costo, bTraduccion);
