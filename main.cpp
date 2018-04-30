@@ -112,7 +112,7 @@ void consultaReservaciones(Reserva *arrRes[], int tamRes, Servicio *arrSer[], in
                 cout<<"\t+ ID de cliente: "<<arrRes[j]->getIdUsuario()<<endl;
                 cout<<"\t+ Inicio: "<<arrRes[j]->getHoraInicio()<<endl;
                 cout<<"\t+ Termina: "<<arrRes[j]->calculaHoraFinal()<<endl;
-                cout<<"\t+ Costo: $"<<arrSer[i]->calculaCosto(arrRes[i]->getDuracion())<<endl;
+                cout<<"\t+ Costo: $"<<arrSer[i]->calculaCosto(arrRes[j]->getDuracion())<<endl;
                 res++;
                 if(res > 0){
                     cout << endl;
@@ -198,7 +198,7 @@ void consultaPorHora(Servicio *arrSer[], int tamSer, Reserva *arrRes[], int tamR
                 cout<<"\t+ ID de cliente: "<<arrRes[j]->getIdUsuario()<<endl;
                 cout<<"\t+ Inicio: "<<arrRes[j]->getHoraInicio()<<endl;
                 cout<<"\t+ Termina: "<<arrRes[j]->calculaHoraFinal()<<endl;
-                cout<<"\t+ Costo: $"<<arrSer[i]->calculaCosto(arrRes[i]->getDuracion())<<endl;
+                cout<<"\t+ Costo: $"<<arrSer[i]->calculaCosto(arrRes[j]->getDuracion())<<endl;
                 cout<<"******************************"<<endl<<endl;
 
             }
