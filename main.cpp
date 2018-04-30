@@ -98,15 +98,34 @@ void consultaServicios(Servicio *arrSer[], int tam){
  * Recibe como parametros el arreglo de reservas y su tamaño
  * No regresa algun valor.
 */
-void consultaReservaciones(Reserva *arrRes[], int tam){
+void consultaReservaciones(Reserva *arrRes[], int tamRes, Servicio *arrSer[], int tamSer){
     //Por cada exitente llama al metodo muestra.
-    for(int i=0;i<tam;i++){
+    for(int i=0;i<tamSer;i++){
+        cout<<"Servicio: "<<arrSer[i]->getCveServicio()<<endl;
+        cout<<"Detalle: "<<arrSer[i]->getDescripcion()<<endl;
+        cout<<"******************************"<<endl;
+        cout<<"Reservas: "<<endl;
+        cout<<"******************************"<<endl;
+
+        for(int j=0; j<tamRes; j++){
+            if(arrSer[i]->getCveServicio() == arrRes[j]->getCveServicio()){
+                cout<<endl<<"ID de cliente: "<<arrRes[j]->getIdUsuario()<<endl;
+                cout<<"Inicio: "<<arrRes[j]->getHoraInicio()<<endl;
+                cout<<"Termina: "<<arrRes[j]->calculaHoraFinal()<<endl;
+                cout<<"Costo: $"<<arrSer[i]->calculaCosto(arrRes[i]->getDuracion())<<endl;
+
+            }
+        }
+        cout<<"******************************"<<endl<<endl;
+
+        /*
         cout<<"Reserva "<<i+1<<": "<<endl;
         arrRes[i]->muestra();
         cout<<endl;
+        */
     }
     //Si el arreglo no tiene datos, se informa al usuario
-    if(tam==0){
+    if(tamRes==0){
         cout<<"No existen reservas registradas."<<endl;
     }
 }
@@ -213,7 +232,7 @@ int main()
             //Si es fisico, la ultima palabra, on este caso numero, es el costo por 30 mins
             sCosto=descripcion.substr(ultEspacio+1);
             descripcion.erase(ultEspacio);
-            costo= stoi(sCosto);
+            costo= stringToInt(sCosto);
 
             //Crea un apuntador a un objeto tipo Fisico con memoria dinamica, para que luego el arreglo
             // apunte a ese objeto
@@ -243,7 +262,7 @@ int main()
             ultEspacio=buscarUltimoEspacio(descripcion,descripcion.length());
             sCosto = descripcion.substr(ultEspacio+1);
             //Calcular el valor de costo que dice el string.
-            costo = stoi(sCosto);
+            costo = stringToInt(sCosto);
             descripcion.erase(ultEspacio);
             //Crea un objeto tipo digital y lo asigna a la direccion correspondiente del arreglo.
             Digital *tmp = new Digital(clave, descripcion, tipo,costo, bTraduccion);
@@ -320,7 +339,7 @@ int main()
 
         //Opcion que muestra todos las reservas registrados
         case 'B':
-            consultaReservaciones(arrRes,indexRes);
+            consultaReservaciones(arrRes,indexRes,arrSer,indexSer);
             break;
 
         //Opcion que muestra las reservas con una clave de servicios dada
