@@ -120,12 +120,6 @@ void consultaReservaciones(Reserva *arrRes[], int tamRes, Servicio *arrSer[], in
             }
         }
         cout<<"******************************"<<endl<<endl;
-
-        /*
-        cout<<"Reserva "<<i+1<<": "<<endl;
-        arrRes[i]->muestra();
-        cout<<endl;
-        */
     }
     //Si el arreglo no tiene datos, se informa al usuario
     if(tamRes==0){
@@ -140,18 +134,46 @@ void consultaReservaciones(Reserva *arrRes[], int tamRes, Servicio *arrSer[], in
  * que se busca.
  * No regresa algun valor.
 */
-void consultaPorClave(Reserva *arrRes[], int tam, string clave){
+void consultaPorClave(Servicio *arrSer[], int tamSer, Reserva *arrRes[], int tamRes, string clave){
+    int res;
     bool bHay=false;
-    for(int i=0;i<tam;i++){
-        if(arrRes[i]->getCveServicio() == clave){
-            bHay=true;
-            arrRes[i]->muestra();
-            cout<<endl;
+    if(existeServicio(arrSer,tamSer,clave)){
+
+        for(int i=0;i<tamSer;i++){
+            if(arrSer[i]->getCveServicio()==clave){
+                cout<<"******************************"<<endl;
+                cout<<"Servicio: "<<arrSer[i]->getCveServicio()<<endl;
+                cout<<"Detalle: "<<arrSer[i]->getDescripcion()<<endl;
+                cout<<"Reservas: "<<endl;
+                for(int j=0; j<tamRes; j++){
+                    res = 0;
+                    if(arrSer[i]->getCveServicio() == arrRes[j]->getCveServicio()){
+
+                        bHay=true;
+                        cout<<"\t+ ID de cliente: "<<arrRes[j]->getIdUsuario()<<endl;
+                        cout<<"\t+ Inicio: "<<arrRes[j]->getHoraInicio()<<endl;
+                        cout<<"\t+ Termina: "<<arrRes[j]->calculaHoraFinal()<<endl;
+
+                        res++;
+                        if(res > 0){
+                            cout << endl;
+                        }
+                    }
+                }
+                cout<<"******************************"<<endl<<endl;
+            }
+
+
+
+        }
+        if(!bHay){
+            cout<<"No existen reservas para ese servicio."<<endl;
         }
     }
-    if(!bHay){
-        cout<<"No existen reservas para ese servicio."<<endl;
+    else{
+        cout<<"La clave de servicio no existe, intente nuevamente."<<endl;
     }
+
 }
 
 /*
@@ -159,15 +181,38 @@ void consultaPorClave(Reserva *arrRes[], int tam, string clave){
  * Recibe como parametros el arreglo de reservas, su tamaño y la hora buscada.
  * No regresa algun valor.
 */
-void consultaPorHora(Reserva *arrRes[], int tam, Hora hInicio){
+void consultaPorHora(Servicio *arrSer[], int tamSer, Reserva *arrRes[], int tamRes, Hora hInicio){
     bool bHay=false;
-    for(int i=0;i<tam;i++){
+
+    //Por cada exitente llama al metodo muestra.
+    for(int i=0;i<tamSer;i++){
+
+        for(int j=0; j<tamRes; j++){
+
+            if(arrSer[i]->getCveServicio() == arrRes[j]->getCveServicio() && arrRes[j]->getHoraInicio()==hInicio){
+                bHay=true;
+                cout<<"******************************"<<endl;
+                cout<<"Servicio: "<<arrSer[i]->getCveServicio()<<endl;
+                cout<<"Detalle: "<<arrSer[i]->getDescripcion()<<endl;
+                cout<<"Reservas: "<<endl;
+                cout<<"\t+ ID de cliente: "<<arrRes[j]->getIdUsuario()<<endl;
+                cout<<"\t+ Inicio: "<<arrRes[j]->getHoraInicio()<<endl;
+                cout<<"\t+ Termina: "<<arrRes[j]->calculaHoraFinal()<<endl;
+                cout<<"\t+ Costo: $"<<arrSer[i]->calculaCosto(arrRes[i]->getDuracion())<<endl;
+                cout<<"******************************"<<endl<<endl;
+
+            }
+        }
+
+    }
+
+    /*for(int i=0;i<tam;i++){
         if(arrRes[i]->getHoraInicio()==hInicio){
             bHay=true;
             arrRes[i]->muestra();
             cout<<endl;
         }
-    }
+    }*/
     if(!bHay){
         cout<<"No existen reservas con esa hora de inicio."<<endl;
     }
@@ -350,7 +395,9 @@ int main()
             cout<<"Teclea la clave del servicio."<<endl;
             cin>>clave;
             cout<<endl;
-            consultaPorClave(arrRes,indexRes,clave);
+
+            consultaPorClave(arrSer,indexSer,arrRes,indexRes,clave);
+
             break;
 
         //Opcion que muestra las reservas con una hora dada
@@ -361,7 +408,7 @@ int main()
             //Solo se hace  un if porque regresa al menu directamente, no hay necesidad  de implementar
             // un while o do-while que obligue al usuario a esta opcion.
             if(bHoraValida){
-                consultaPorHora(arrRes,indexRes,temp);
+                consultaPorHora(arrSer,indexSer,arrRes,indexRes,temp);
             }
             else{
                 cout<<"Hora dada es invalida, intente nuevamente."<<endl;
@@ -398,13 +445,17 @@ int main()
                                 cout<<"Hora dada excede las 24 horas del dia, intentelo de nuevo."<<endl;
                             }
                         }while(!bHoraValida);
-
-                        cout<<endl<<"Teclea la duracion de la reserva"<<endl;
-                        cin>>duracion;
-
+                        do{
+                            cout<<endl<<"Teclea la duracion de la reserva. (Para regresar al menu principal teclee '-1')"<<endl;
+                            cin>>duracion;
+                            bHoraValida = validarHora(temp+duracion);
+                            if(!bHoraValida ){
+                                cout<<"La hora a terminar excede las 24 horas del dia, intente nuevamente."<<endl;
+                            }
+                        }while(!bHoraValida||duracion!= -1);
                         bEmpalme= validaEmpalmeHorario(arrRes,indexRes,temp,duracion,clave);
 
-                        if(bEmpalme){
+                        if(bEmpalme&&duracion!= -1){
                             do{
                                 cout<<"El servicio ya es rentado a esa hora, desea introducir otra hora o duracion? (s/n)"<<endl;
                                 cin>>op2;
@@ -422,12 +473,12 @@ int main()
                             }while(op2!= 'n' && op2!= 's');
 
                         }
-                        else{
+                        elseR{
                             bReservaValida=true;
                         }
                     }while(bEmpalme);
 
-                    if(bReservaValida){
+                    if(bReservaValida&&duracion!= -1){
 
                         cout<<"Teclea el ID del usuario."<<endl;
                         cin>>id;
