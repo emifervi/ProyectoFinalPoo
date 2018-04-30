@@ -24,26 +24,6 @@ int buscarUltimoEspacio(string str, int tam){
 }
 
 /*
- * Funcion para obtener el entero que esta representando una variable string
- * Toma como parametros un string
- * Regresa el entero que esta siendo representado en el string
-*/
-int stringToInt(string str){
-    int res=0;
-    cout<<"Tam "<<str.length()<<endl;
-    for(int i=0;i<str.length();i++){
-
-        cout<<pow(10,str.length()-1-i)<<endl;
-
-        res+=(str[i]-'0')*pow(10,str.length()-1-i);
-        cout<<"Res "<<res<<endl;
-
-    }
-    cout << endl;
-    return res;
-}
-
-/*
  * Funcion para saber si una clave dada existe y pertenece a un servicio dentro del arreglo
  * Toma como parametros el arreglo de servicios, su tamaño y la clave a encontrar
  * Regresa verdadero si encuentra el servicio y falso si no lo encuentra.
@@ -98,7 +78,7 @@ void consultaServicios(Servicio *arrSer[], int tam){
 */
 void consultaReservaciones(Reserva *arrRes[], int tamRes, Servicio *arrSer[], int tamSer){
     int res;
-    //Por cada exitente llama al metodo muestra.
+    //Por cada servicio, muestra sus reservas correspondientes..
     for(int i=0;i<tamSer;i++){
         cout<<"******************************"<<endl;
         cout<<"Servicio: "<<arrSer[i]->getCveServicio()<<endl;
@@ -135,8 +115,10 @@ void consultaReservaciones(Reserva *arrRes[], int tamRes, Servicio *arrSer[], in
 void consultaPorClave(Servicio *arrSer[], int tamSer, Reserva *arrRes[], int tamRes, string clave){
     int res;
     bool bHay=false;
+    //Primero se valida que el servicio dado exista
     if(existeServicio(arrSer,tamSer,clave)){
 
+        //Luego se despliega el servicio correspondiente
         for(int i=0;i<tamSer;i++){
             if(arrSer[i]->getCveServicio()==clave){
                 cout<<"******************************"<<endl;
@@ -145,8 +127,9 @@ void consultaPorClave(Servicio *arrSer[], int tamSer, Reserva *arrRes[], int tam
                 cout<<"Reservas: "<<endl;
                 for(int j=0; j<tamRes; j++){
                     res = 0;
+                    //Al encontrar una reserva que tenga la clave del servicio que se busca se despliega
                     if(arrSer[i]->getCveServicio() == arrRes[j]->getCveServicio()){
-
+                        //Valida que si hay reservas con la clave dada
                         bHay=true;
                         cout<<"\t+ ID de cliente: "<<arrRes[j]->getIdUsuario()<<endl;
                         cout<<"\t+ Inicio: "<<arrRes[j]->getHoraInicio()<<endl;
@@ -160,10 +143,8 @@ void consultaPorClave(Servicio *arrSer[], int tamSer, Reserva *arrRes[], int tam
                 }
                 cout<<"******************************"<<endl<<endl;
             }
-
-
-
         }
+        //Si no hay reservas con la clave dada, se notifica al usuario.
         if(!bHay){
             cout<<"No existen reservas para ese servicio."<<endl;
         }
@@ -182,12 +163,12 @@ void consultaPorClave(Servicio *arrSer[], int tamSer, Reserva *arrRes[], int tam
 void consultaPorHora(Servicio *arrSer[], int tamSer, Reserva *arrRes[], int tamRes, Hora hInicio){
     bool bHay=false;
 
-    //Por cada exitente llama al metodo muestra.
     for(int i=0;i<tamSer;i++){
-
         for(int j=0; j<tamRes; j++){
-
+            //Si encuentra una reservacion con la hora de inicio dada, muestra el servicio al que pertenece y muestra
+            // la informacion pertinente.
             if(arrSer[i]->getCveServicio() == arrRes[j]->getCveServicio() && arrRes[j]->getHoraInicio()==hInicio){
+                //Se valida que hay reservas con ese horario
                 bHay=true;
                 cout<<"******************************"<<endl;
                 cout<<"Servicio: "<<arrSer[i]->getCveServicio()<<endl;
@@ -201,20 +182,11 @@ void consultaPorHora(Servicio *arrSer[], int tamSer, Reserva *arrRes[], int tamR
 
             }
         }
-
     }
-
-    /*for(int i=0;i<tam;i++){
-        if(arrRes[i]->getHoraInicio()==hInicio){
-            bHay=true;
-            arrRes[i]->muestra();
-            cout<<endl;
-        }
-    }*/
+    //Si no  hay reservas con ese horario, se notifica al usuario
     if(!bHay){
         cout<<"No existen reservas con esa hora de inicio."<<endl;
     }
-
 }
 
 /*
@@ -242,11 +214,13 @@ bool validaEmpalmeHorario(Reserva *arrRes[], int tam, Hora hr,int dur, string cl
  * Regresa el valor con decimal del costo del servicio por la duracion dada.
 */
 double mostrarCostoDeRenta(Servicio *arrSer[],int tam, string clave, int duracion){
+    //Busca la clave dada para calcular su costo.
     for(int i=0;i<tam;i++){
         if(arrSer[i]->getCveServicio() == clave){
             return arrSer[i]->calculaCosto(duracion);
         }
     }
+    //Si no encuentra el servicio, regresa 0
     return 0;
 }
 
@@ -436,12 +410,9 @@ int main()
                 // al menu directamente, no ha ingresado mas datos.
                 if(clave!="-1"){
 
-                    //Al ya haber ingresado otros datos ya validados, se espera que el usuario de una hora valida,
-                    // por esto aqui si se implementa un do-while hasta que el usuario de una hora valida.
                     do{
-
-
                         do{
+                            //Se pide hora y se valida que no exceda las 24 horas
                             cout<<endl<<"Teclea el horaio de inicio, separando hora y minuto con dos puntos ':'"<<endl;
                             cin>>temp;
                             bHoraValida= validarHora(temp);
@@ -450,6 +421,7 @@ int main()
                             }
                         }while(!bHoraValida);
                         do{
+                            //Se pide duracion y se valida que la hora de salida no exceda las 24 horas.
                             cout<<endl<<"Teclea la duracion de la reserva. (Para regresar al menu principal teclee '-1')"<<endl;
                             cin>>duracion;
                             bHoraValida = validarHora(temp+duracion);
@@ -457,8 +429,11 @@ int main()
                                 cout<<"La hora a terminar excede las 24 horas del dia, intente nuevamente."<<endl;
                             }
                         }while(!bHoraValida||duracion!= -1);
+
+                        //Se revisa que las horas dadas no se empalmen
                         bEmpalme= validaEmpalmeHorario(arrRes,indexRes,temp,duracion,clave);
 
+                        //Si se empalman, da la opcion de ingresar otras horas o de regresar al menu
                         if(bEmpalme&&duracion!= -1){
                             do{
                                 cout<<"El servicio ya es rentado a esa hora, desea introducir otra hora o duracion? (s/n)"<<endl;
@@ -482,6 +457,7 @@ int main()
                         }
                     }while(bEmpalme);
 
+                    //Si se ingresan datos validos, se registra la nueva reserva
                     if(bReservaValida&&duracion!= -1){
 
                         cout<<"Teclea el ID del usuario."<<endl;
@@ -513,9 +489,11 @@ int main()
 
     }while(toupper(op)!='F');
 
+    //Se pide el archivo a donde se ingresaran los datos
     cout<<"Teclea el nombre del archivo a donde se guardaran las reservas:"<<endl;
     cin>>clave;
 
+    //Se ingresan los datos al archivo dado
     SalRes.open(clave.c_str());
     for(int i=0; i<indexRes; i++){
         SalRes<<arrRes[i]->getCveServicio()<<" "<<arrRes[i]->getIdUsuario()<<" "<<arrRes[i]->getHoraInicio()<<" "<<arrRes[i]->getDuracion()<<endl;
