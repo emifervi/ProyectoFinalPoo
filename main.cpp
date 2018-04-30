@@ -99,21 +99,24 @@ void consultaServicios(Servicio *arrSer[], int tam){
  * No regresa algun valor.
 */
 void consultaReservaciones(Reserva *arrRes[], int tamRes, Servicio *arrSer[], int tamSer){
+    int res;
     //Por cada exitente llama al metodo muestra.
     for(int i=0;i<tamSer;i++){
+        cout<<"******************************"<<endl;
         cout<<"Servicio: "<<arrSer[i]->getCveServicio()<<endl;
         cout<<"Detalle: "<<arrSer[i]->getDescripcion()<<endl;
-        cout<<"******************************"<<endl;
         cout<<"Reservas: "<<endl;
-        cout<<"******************************"<<endl;
-
         for(int j=0; j<tamRes; j++){
+            res = 0;
             if(arrSer[i]->getCveServicio() == arrRes[j]->getCveServicio()){
-                cout<<endl<<"ID de cliente: "<<arrRes[j]->getIdUsuario()<<endl;
-                cout<<"Inicio: "<<arrRes[j]->getHoraInicio()<<endl;
-                cout<<"Termina: "<<arrRes[j]->calculaHoraFinal()<<endl;
-                cout<<"Costo: $"<<arrSer[i]->calculaCosto(arrRes[i]->getDuracion())<<endl;
-
+                cout<<"\t+ ID de cliente: "<<arrRes[j]->getIdUsuario()<<endl;
+                cout<<"\t+ Inicio: "<<arrRes[j]->getHoraInicio()<<endl;
+                cout<<"\t+ Termina: "<<arrRes[j]->calculaHoraFinal()<<endl;
+                cout<<"\t+ Costo: $"<<arrSer[i]->calculaCosto(arrRes[i]->getDuracion())<<endl;
+                res++;
+                if(res > 0){
+                    cout << endl;
+                }
             }
         }
         cout<<"******************************"<<endl<<endl;
