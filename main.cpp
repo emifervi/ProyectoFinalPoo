@@ -27,12 +27,21 @@ int buscarUltimoEspacio(string str, int tam){
  * Toma como parametros un string y su tamaño
  * Regresa el entero que esta siendo representado en el string
 */
-int stringToInt(string str, int tam){
-    int res=0,n;
-    for(int i=0;i<tam;i++){
-        n=str[i]-48;
-        res+=n*pow(10,tam-1-i);
+int stringToInt(string str){
+    int res = 0;
+    cout << endl;
+    cout << str << endl;
+    for(int i=0;i<str.length();i++){
+        cout << "RES before: "<< res << endl;
+        cout << "power = " << str.length() - 1 - i << endl;
+        cout << "10th to the = " << pow(10, str.length() -1 - i) << endl;
+        cout << "str[i] = " << str[i] << endl;
+        cout << "str[i] - 0 = " << str[i] - '0' << endl;
+        cout << "str[i] - 0 * power = " << (str[i] - '0') * pow(10, str.length() - 1 - i) << endl;
+        res += (str[i] - 48) * pow(10, str.length() - 1 - i);
+        cout << "RES after: "<< res << endl;
     }
+    cout << endl;
     return res;
 }
 
@@ -204,7 +213,7 @@ int main()
             //Si es fisico, la ultima palabra, on este caso numero, es el costo por 30 mins
             sCosto=descripcion.substr(ultEspacio+1);
             descripcion.erase(ultEspacio);
-            costo= stringToInt(sCosto, sCosto.length());
+            costo= stoi(sCosto);
 
             //Crea un apuntador a un objeto tipo Fisico con memoria dinamica, para que luego el arreglo
             // apunte a ese objeto
@@ -234,7 +243,7 @@ int main()
             ultEspacio=buscarUltimoEspacio(descripcion,descripcion.length());
             sCosto = descripcion.substr(ultEspacio+1);
             //Calcular el valor de costo que dice el string.
-            costo = stringToInt(sCosto, sCosto.length());
+            costo = stoi(sCosto);
             descripcion.erase(ultEspacio);
             //Crea un objeto tipo digital y lo asigna a la direccion correspondiente del arreglo.
             Digital *tmp = new Digital(clave, descripcion, tipo,costo, bTraduccion);
