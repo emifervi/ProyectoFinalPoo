@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdlib.h>
 #include <cmath>
 using namespace std;
 #include "Reserva.h"
@@ -28,7 +29,6 @@ int buscarUltimoEspacio(string str, int tam){
  * Regresa el entero que esta siendo representado en el string
 */
 int stringToInt(string str){
-<<<<<<< HEAD
     int res=0;
     cout<<"Tam "<<str.length()<<endl;
     for(int i=0;i<str.length();i++){
@@ -37,20 +37,7 @@ int stringToInt(string str){
 
         res+=(str[i]-'0')*pow(10,str.length()-1-i);
         cout<<"Res "<<res<<endl;
-=======
-    int res = 0;
-    cout << endl;
-    cout << str << endl;
-    for(int i=0;i<str.length();i++){
-        cout << "RES before: "<< res << endl;
-        cout << "power = " << str.length() - 1 - i << endl;
-        cout << "10th to the = " << pow(10, str.length() -1 - i) << endl;
-        cout << "str[i] = " << str[i] << endl;
-        cout << "str[i] - 0 = " << str[i] - '0' << endl;
-        cout << "str[i] - 0 * power = " << (str[i] - '0') * pow(10, str.length() - 1 - i) << endl;
-        res += (str[i] - 48) * pow(10, str.length() - 1 - i);
-        cout << "RES after: "<< res << endl;
->>>>>>> 869d2ae75c726cd8c162157dc1d6d8a6d87c31cf
+
     }
     cout << endl;
     return res;
@@ -296,11 +283,7 @@ int main()
             //Si es fisico, la ultima palabra, on este caso numero, es el costo por 30 mins
             sCosto=descripcion.substr(ultEspacio+1);
             descripcion.erase(ultEspacio);
-<<<<<<< HEAD
-            cout<<sCosto<<endl;
-=======
->>>>>>> 869d2ae75c726cd8c162157dc1d6d8a6d87c31cf
-            costo= stringToInt(sCosto);
+            costo= atoi(sCosto.c_str());
 
             //Crea un apuntador a un objeto tipo Fisico con memoria dinamica, para que luego el arreglo
             // apunte a ese objeto
@@ -329,9 +312,9 @@ int main()
             descripcion.erase(ultEspacio);
             ultEspacio=buscarUltimoEspacio(descripcion,descripcion.length());
             sCosto = descripcion.substr(ultEspacio+1);
-            cout<<sCosto<<endl;
+
             //Calcular el valor de costo que dice el string.
-            costo = stringToInt(sCosto);
+            costo = atoi(sCosto.c_str());
             descripcion.erase(ultEspacio);
             //Crea un objeto tipo digital y lo asigna a la direccion correspondiente del arreglo.
             Digital *tmp = new Digital(clave, descripcion, tipo,costo, bTraduccion);
