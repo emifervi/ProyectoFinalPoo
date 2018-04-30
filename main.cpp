@@ -280,7 +280,7 @@ int main()
             //Si es fisico, la ultima palabra, on este caso numero, es el costo por 30 mins
             sCosto=descripcion.substr(ultEspacio+1);
             descripcion.erase(ultEspacio);
-            costo= stoi(sCosto);
+            costo= stringToInt(sCosto);
 
             //Crea un apuntador a un objeto tipo Fisico con memoria dinamica, para que luego el arreglo
             // apunte a ese objeto
@@ -310,7 +310,7 @@ int main()
             ultEspacio=buscarUltimoEspacio(descripcion,descripcion.length());
             sCosto = descripcion.substr(ultEspacio+1);
             //Calcular el valor de costo que dice el string.
-            costo = stoi(sCosto);
+            costo = stringToInt(sCosto);
             descripcion.erase(ultEspacio);
             //Crea un objeto tipo digital y lo asigna a la direccion correspondiente del arreglo.
             Digital *tmp = new Digital(clave, descripcion, tipo,costo, bTraduccion);
@@ -473,7 +473,7 @@ int main()
                             }while(op2!= 'n' && op2!= 's');
 
                         }
-                        elseR{
+                        else{
                             bReservaValida=true;
                         }
                     }while(bEmpalme);

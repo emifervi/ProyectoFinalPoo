@@ -72,10 +72,10 @@ bool Digital::getTraduccion(){
 double Digital::calculaCosto(int tiempo){
 
     if(traduccion){
-        return costoXHr * tiempo * 1.25;
+        return (costoXHr * tiempo)/60 * 1.25;
     }
     else{
-        return costoXHr * tiempo;
+        return (costoXHr /60)* tiempo;
     }
 }
 

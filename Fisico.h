@@ -52,7 +52,7 @@ double Fisico::getCtoX30Min(){
  * Retornos: costo total del servicio
  */
 double Fisico::calculaCosto(int tiempo){;
-    return ctoX30Min * tiempo;
+    return (ctoX30Min/30.0 )* tiempo;
 }
 
 /*
