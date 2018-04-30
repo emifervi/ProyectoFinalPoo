@@ -24,14 +24,18 @@ int buscarUltimoEspacio(string str, int tam){
 
 /*
  * Funcion para obtener el entero que esta representando una variable string
- * Toma como parametros un string y su tamaño
+ * Toma como parametros un string
  * Regresa el entero que esta siendo representado en el string
 */
-int stringToInt(string str, int tam){
-    int res=0,n;
-    for(int i=0;i<tam;i++){
-        n=str[i]-48;
-        res+=n*pow(10,tam-1-i);
+int stringToInt(string str){
+    int res=0;
+    cout<<"Tam "<<str.length()<<endl;
+    for(int i=0;i<str.length();i++){
+
+        cout<<pow(10,str.length()-1-i)<<endl;
+
+        res+=(str[i]-'0')*pow(10,str.length()-1-i);
+        cout<<"Res "<<res<<endl;
     }
     return res;
 }
@@ -162,6 +166,11 @@ bool validaEmpalmeHorario(Reserva *arrRes[], int tam, Hora hr,int dur, string cl
     return  false;
 }
 
+/*
+ * Funcion para calcular el costo de reservar un servicio
+ * Recibe como parametros el arreglo de servicios, su tamaño, la clave del servicio y la duracion.
+ * Regresa el valor con decimal del costo del servicio por la duracion dada.
+*/
 double mostrarCostoDeRenta(Servicio *arrSer[],int tam, string clave, int duracion){
     for(int i=0;i<tam;i++){
         if(arrSer[i]->getCveServicio() == clave){
@@ -204,7 +213,8 @@ int main()
             //Si es fisico, la ultima palabra, on este caso numero, es el costo por 30 mins
             sCosto=descripcion.substr(ultEspacio+1);
             descripcion.erase(ultEspacio);
-            costo= stringToInt(sCosto, sCosto.length());
+            cout<<sCosto<<endl;
+            costo= stringToInt(sCosto);
 
             //Crea un apuntador a un objeto tipo Fisico con memoria dinamica, para que luego el arreglo
             // apunte a ese objeto
@@ -233,8 +243,9 @@ int main()
             descripcion.erase(ultEspacio);
             ultEspacio=buscarUltimoEspacio(descripcion,descripcion.length());
             sCosto = descripcion.substr(ultEspacio+1);
+            cout<<sCosto<<endl;
             //Calcular el valor de costo que dice el string.
-            costo = stringToInt(sCosto, sCosto.length());
+            costo = stringToInt(sCosto);
             descripcion.erase(ultEspacio);
             //Crea un objeto tipo digital y lo asigna a la direccion correspondiente del arreglo.
             Digital *tmp = new Digital(clave, descripcion, tipo,costo, bTraduccion);
