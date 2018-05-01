@@ -1,3 +1,11 @@
+/*
+ * Descripcion: Proyecto Final, utiliza clases, herencia, composicion, sobrecarga de operadores, polimorfismo, apuntadores y otros conceptos
+ * vistos en clase para crear un sistema de renta de libros, revistas, periodicos, etc fisicos y digitales.
+ * Equipo: Jose Guillermo Saldaña Cardenas | A01039888
+ *         Emilio Fernando Alonso Villa    | A00959385
+ * Fecha: 30 de mayo de 2018
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
