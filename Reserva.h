@@ -112,8 +112,8 @@ void Reserva::muestra(){
 
     cout<<"Servicio: "<<cveServicio<<endl;
     cout<<"ID de usuario: "<<idUsuario<<endl;
-    cout<<"Hora de Inicio: "<<horaInicio<<endl;
-    cout<<"Duracion: "<<duracion<<endl;
+    cout<<"Inicia: "<<horaInicio<<endl;
+    cout<<"Termina: "<<calculaHoraFinal()<<endl;
 }
 
 #endif // RESERVA_H_INCLUDED
