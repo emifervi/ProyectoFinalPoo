@@ -2,9 +2,13 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Release" />
-	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
+<<<<<<< HEAD
 			<Cursor1 position="7074" topLine="227" />
+=======
+			<Cursor1 position="19588" topLine="471" />
+>>>>>>> 6c6a275a2494a643999dee6fa3e3327df9be158a
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

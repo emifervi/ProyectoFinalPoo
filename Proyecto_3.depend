@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1525048187 source:c:\users\memos\onedrive\documents\github\proyectofinalpoo\main.cpp
+1525069385 source:c:\users\memos\onedrive\documents\github\proyectofinalpoo\main.cpp
 	<iostream>
 	<fstream>
 	<string>
@@ -16,10 +16,10 @@
 
 1524973638 c:\users\memos\onedrive\documents\github\proyectofinalpoo\servicio.h
 
-1524984939 c:\users\memos\onedrive\documents\github\proyectofinalpoo\fisico.h
+1525069385 c:\users\memos\onedrive\documents\github\proyectofinalpoo\fisico.h
 	"Servicio.h"
 
-1524989799 c:\users\memos\onedrive\documents\github\proyectofinalpoo\digital.h
+1525069385 c:\users\memos\onedrive\documents\github\proyectofinalpoo\digital.h
 	"Servicio.h"
 
 1525065109 source:c:\users\memos\documents\github\proyectofinalpoo\main.cpp
